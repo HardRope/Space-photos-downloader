@@ -110,3 +110,8 @@ if __name__ == '__main__':
 
     for name, links in loading_data.items():
         image_loader(links, name)
+
+    token = os.getenv('TG-TOKEN')
+    bot = telegram.Bot(token=token)
+    channel_id = '@HR_Space_img'
+    bot.send_message(chat_id=channel_id, text="test message")
