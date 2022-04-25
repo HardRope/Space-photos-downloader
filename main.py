@@ -114,4 +114,6 @@ if __name__ == '__main__':
     token = os.getenv('TG-TOKEN')
     bot = telegram.Bot(token=token)
     channel_id = '@HR_Space_img'
-    bot.send_message(chat_id=channel_id, text="test message")
+    bot.send_message(chat_id=channel_id, text="message")
+    photo = os.getcwd() + r"\image\NASA\NASA-1.jpg"
+    bot.send_document(chat_id=channel_id, document=open(photo, "rb"))
