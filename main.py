@@ -1,5 +1,6 @@
 import datetime
 import os
+import time
 from urllib.parse import urlparse
 
 import requests
@@ -98,6 +99,16 @@ def image_loader(image_list, directory_name=None):
         download_image(link, image_file)
 
 
+def take_files():
+    path = os.getcwd() + r"\image\\"
+    tree = os.walk(path)
+    images = []
+    for address, dirs, files in tree:
+        for name in files:
+            images.append(os.path.join(address, name))
+    return images
+
+
 if __name__ == '__main__':
     load_dotenv()
     check_directory()
@@ -111,9 +122,14 @@ if __name__ == '__main__':
     for name, links in loading_data.items():
         image_loader(links, name)
 
-    token = os.getenv('TG-TOKEN')
-    bot = telegram.Bot(token=token)
+    TG_TOKEN = os.getenv('TG-TOKEN')
+    bot = telegram.Bot(token=TG_TOKEN)
     channel_id = '@HR_Space_img'
-    bot.send_message(chat_id=channel_id, text="message")
-    photo = os.getcwd() + r"\image\NASA\NASA-1.jpg"
-    bot.send_document(chat_id=channel_id, document=open(photo, "rb"))
+
+    images_paths = take_files()
+    TIME_DELAY = int(os.getenv('TIME-DELAY', default=86400))
+
+    while True:
+        for image in images_paths:
+            bot.send_document(chat_id=channel_id, document=open(image, "rb"))
+            time.sleep(TIME_DELAY)
