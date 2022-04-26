@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     TG_TOKEN = os.getenv('TG-TOKEN')
     bot = telegram.Bot(token=TG_TOKEN)
-    channel_id = '@HR_Space_img'
+    channel_id = os.getenv('CHANNEL-ID')
 
     images_paths = take_files()
     TIME_DELAY = int(os.getenv('TIME-DELAY', default=86400))
