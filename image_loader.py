@@ -1,18 +1,18 @@
 import os
 import requests
+from pathlib import Path
 
 from urllib.parse import urlparse
 
-def check_directory(user_dir=None):
-    file_path = os.getcwd() + r"\image\\"
-    if user_dir:
-        file_path += user_dir + "\\"
-    directory = os.path.dirname(file_path)
-    try:
-        os.stat(directory)
-    except:
-        os.mkdir(directory)
+def create_directory(user_dir=None, main_dir ='image'):
+    if not user_dir:
+        file_path = Path.cwd() / main_dir
+    else:
+        file_path = Path.cwd() / main_dir / user_dir
 
+    Path.mkdir(file_path, parents=True, exist_ok=True)
+
+    return file_path
 
 def get_extension(url):
     path = urlparse(url).path
@@ -29,15 +29,13 @@ def download_image(url, path):
         file.write(response.content)
 
 
-def image_loader(image_list, directory_name=None):
-    check_directory(directory_name)
+def load_image(image_list, save_path):
 
     image_links = image_list
-    save_path = os.getcwd() + r"\image\\" + directory_name + "\\"
 
     for num, link in enumerate(image_links, start=1):
         image_extension = get_extension(link)
-        image_name = directory_name + '-' + str(num) + image_extension
-        image_file = save_path + image_name
+        image_name = Path(save_path).stem + '-' + str(num) + image_extension
+        image_file = save_path / image_name
 
         download_image(link, image_file)
