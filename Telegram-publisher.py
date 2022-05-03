@@ -1,30 +1,32 @@
 import os
 import time
+from pathlib import Path
 
 import telegram
 from dotenv import load_dotenv
 
-def take_files():
-    path = os.getcwd() + r"\image\\"
-    tree = os.walk(path)
+def take_files(dir):
+    dirpath = Path.cwd() / dir
+    tree = os.walk(dirpath)
     images = []
-    for address, dirs, files in tree:
-        for name in files:
-            images.append(os.path.join(address, name))
+    for filepaths, dirs, files in tree:
+        for filename in files:
+            images.append(os.path.join(filepaths, filename))
     return images
 
 
 if __name__ == '__main__':
     load_dotenv()
 
-    TG_TOKEN = os.getenv('TG-TOKEN')
-    bot = telegram.Bot(token=TG_TOKEN)
+    tg_token = os.getenv('TG-TOKEN')
+    bot = telegram.Bot(token=tg_token)
     channel_id = os.getenv('CHANNEL-ID')
 
-    images_paths = take_files()
-    TIME_DELAY = int(os.getenv('TIME-DELAY', default=86400))
+    images_paths = take_files('image')
+    time_delay = int(os.getenv('TIME-DELAY', default=86400))
 
     while True:
         for image in images_paths:
-            bot.send_document(chat_id=channel_id, document=open(image, "rb"))
-            time.sleep(TIME_DELAY)
+            with open(image, "rb") as photo:
+              bot.send_document(chat_id=channel_id, document=photo)
+            time.sleep(time_delay)
