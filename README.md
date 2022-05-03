@@ -5,10 +5,10 @@ This programm created to download some Space and rocket launches photos from Spa
 ## How to use
 
 To use script, you need to create `.env` with some tokens:
-* `NASA-API = 'nasa_token_here'`
-* `TG-TOKEN = 'telegramm-bot-token'`
-* `CHANNEL-ID = 'channel link (@ChanellName)'`
-* `TIME-DELAY = 86400`
+* `NASA-API='nasa_token_here'`
+* `TG-TOKEN='telegramm-bot-token'`
+* `CHANNEL-ID='channel link (@ChanellName)'`
+* `TIME-DELAY=86400`
 
 
 Link to create api-token: [NASA](https://api.nasa.gov/)
@@ -19,13 +19,26 @@ Time delay is seconds value between publishing photo to channel. Default value =
 
 After creating `.env` file, run `fetch_nasa` and `fetch_spacex` to download images.
 
+Console command to run:
+
+```
+python fetch_nasa.py
+
+python fetch_spacex`.py
+```
+
 Launch `Telegram-publisher` create endless cycle, that publish one image per a day to your TG-channel.
+
+```
+python Telegram_publisher.py
+```
 
 Python3 should be already installed. Then use pip (or pip3, if there is a conflict with Python2) to install dependencies:
 
 ```
 pip install -r requirements.txt
 ```
+
 
 ## Remark
 
