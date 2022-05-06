@@ -5,7 +5,7 @@ from pathlib import Path
 import telegram
 from dotenv import load_dotenv
 
-def take_files(dir):
+def get_paths(dir):
     dirpath = Path.cwd() / dir
     tree = os.walk(dirpath)
     images = []
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     bot = telegram.Bot(token=tg_token)
     channel_id = os.getenv('CHANNEL-ID')
 
-    images_paths = take_files('image')
+    images_paths = get_paths('image')
     time_delay = int(os.getenv('TIME-DELAY', default=86400))
 
     while True:
