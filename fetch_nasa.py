@@ -4,7 +4,7 @@ import datetime
 import requests
 from dotenv import load_dotenv
 
-from image_loader import *
+import image_loader as i_loader
 
 
 def get_date(date):
@@ -60,5 +60,5 @@ if __name__ == '__main__':
         }
 
     for name, links in loading_data.items():
-        save_path = create_directory(name)
-        load_image(links, save_path)
+        save_path = i_loader.create_directory(name)
+        i_loader.load_image(links, save_path)
