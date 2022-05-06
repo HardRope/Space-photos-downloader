@@ -9,7 +9,7 @@ To use script, you need to create `.env` with some tokens:
 * `TG-TOKEN='telegramm-bot-token'`
 * `CHANNEL-ID='channel link (@ChanellName)'`
 * `TIME-DELAY=86400`
-
+* `LAUNCH-ID='lainch_id_here'`
 
 Link to create api-token: [NASA](https://api.nasa.gov/)
 
