@@ -10,19 +10,19 @@ def request_spacex_list(id):
         f"https://api.spacexdata.com/v4/launches/{id}")
     response.raise_for_status()
 
-    image_list = response.json()['links']['flickr']['original']
-    return image_list
+    image_links = response.json()['links']['flickr']['original']
+    return image_links
 
 
 if __name__ == '__main__':
     load_dotenv()
 
-    launch_id = "6161d32d6db1a92bfba85359"
+    launch_id = os.getetnv('LAUNCH_-ID')
 
-    loading_data = {
+    load_pack_links = {
         'SpaceX': request_spacex_list(launch_id),
         }
 
-    for name, links in loading_data.items():
+    for name, link in load_pack_links.items():
         save_path = i_loader.create_directory(name)
-        i_loader.load_image(links, save_path)
+        i_loader.load_images(link, save_path)

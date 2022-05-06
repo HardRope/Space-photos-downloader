@@ -29,7 +29,7 @@ def download_image(url, path):
         file.write(response.content)
 
 
-def load_image(image_list, save_path):
+def load_images(image_list, save_path):
 
     image_links = image_list
 

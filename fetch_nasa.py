@@ -7,10 +7,10 @@ from dotenv import load_dotenv
 import image_loader as i_loader
 
 
-def get_date(date):
-    datetime_format = datetime.datetime.fromisoformat(date)
-    format_date = datetime_format.strftime('%Y/%m/%d')
-    return format_date
+def format_date(date):
+    transform_to_datetime = datetime.datetime.fromisoformat(date)
+    formatted_date = transform_to_datetime.strftime('%Y/%m/%d')
+    return formatted_date
 
 
 def request_nasa_list(token):
@@ -21,11 +21,11 @@ def request_nasa_list(token):
     response = requests.get(url)
     response.raise_for_status()
 
-    apod_info = response.json()
+    apod_images_specifications = response.json()
     image_links = []
 
-    for i in apod_info:
-        image_links.append(i['url'])
+    for image_specification in apod_images_specifications:
+        image_links.append(image_specification['url'])
 
     return image_links
 
@@ -37,16 +37,16 @@ def request_nasa_epic_list(token):
     response = requests.get(url, params=api_params)
     response.raise_for_status()
 
-    epic_list = response.json()
-    image_list = []
-    for image_info in epic_list:
-        image_id = image_info['image']
-        date = get_date(image_info['date'])
+    epic_images_specifications = response.json()
+    image_links = []
+    for image_specification in epic_images_specifications:
+        image_id = image_specification['image']
+        date = format_date(image_specification['date'])
 
         epic_url = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{image_id}.png%3Fapi_key={token}'
-        image_list.append(epic_url)
+        image_links.append(epic_url)
 
-    return image_list
+    return image_links
 
 
 if __name__ == '__main__':
@@ -54,11 +54,11 @@ if __name__ == '__main__':
 
     nasa_token = os.getenv('NASA-API')
 
-    loading_data = {
+    load_packs_links = {
         'NASA': request_nasa_list(nasa_token),
         'NASA-Epic': request_nasa_epic_list(nasa_token),
         }
 
-    for name, links in loading_data.items():
+    for name, links in load_packs_links.items():
         save_path = i_loader.create_directory(name)
-        i_loader.load_image(links, save_path)
+        i_loader.load_images(links, save_path)
