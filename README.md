@@ -24,13 +24,13 @@ Console command to run:
 ```
 python fetch_nasa.py
 
-python fetch_spacex`.py
+python fetch_spacex.py
 ```
 
-Launch `Telegram-publisher` create endless cycle, that publish one image per a day to your TG-channel.
+Launch `telegram-publisher` create endless cycle, that publish one image per a day to your TG-channel.
 
 ```
-python Telegram_publisher.py
+python telegram_publisher.py
 ```
 
 Python3 should be already installed. Then use pip (or pip3, if there is a conflict with Python2) to install dependencies:
