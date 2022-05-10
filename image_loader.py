@@ -15,9 +15,9 @@ def create_directory(user_dir=None, main_dir ='image'):
     return file_path
 
 def get_extension(url):
-    path = urlparse(url).path
-    file_name = os.path.split(path)[1]
-    extension = os.path.splitext(file_name)[1]
+    path_from_url = urlparse(url).path
+    path, file_name = os.path.split(path_from_url)
+    name, extension = os.path.splitext(file_name)
     return extension
 
 
@@ -29,10 +29,7 @@ def download_image(url, path):
         file.write(response.content)
 
 
-def load_images(image_list, save_path):
-
-    image_links = image_list
-
+def load_images(image_links, save_path):
     for num, link in enumerate(image_links, start=1):
         image_extension = get_extension(link)
         image_name = Path(save_path).stem + '-' + str(num) + image_extension
