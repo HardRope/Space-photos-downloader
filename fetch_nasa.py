@@ -4,8 +4,7 @@ import datetime
 import requests
 from dotenv import load_dotenv
 
-import image_loader as i_loader
-
+from image_loader import create_directory, load_images
 
 def format_date(date):
     transform_to_datetime = datetime.datetime.fromisoformat(date)
@@ -15,10 +14,13 @@ def format_date(date):
 
 def request_nasa_list(token):
     links_count = 5
+    nasa_params = {
+        'api_key': token,
+        'count': links_count,
+        }
+    url = f'https://api.nasa.gov/planetary/apod'
 
-    url = f'https://api.nasa.gov/planetary/apod?api_key={token}&count={links_count}'
-
-    response = requests.get(url)
+    response = requests.get(url, params=nasa_params)
     response.raise_for_status()
 
     apod_images_specifications = response.json()
@@ -60,5 +62,5 @@ if __name__ == '__main__':
         }
 
     for name, links in load_packs_links.items():
-        save_path = i_loader.create_directory(name)
-        i_loader.load_images(links, save_path)
+        save_path = create_directory(name)
+        load_images(links, save_path)
